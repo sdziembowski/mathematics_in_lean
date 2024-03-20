@@ -7,10 +7,10 @@ example (a b c : ℝ) : a * b * c = b * (a * c) := by
 
 -- Try these.
 example (a b c : ℝ) : c * b * a = b * (a * c) := by
-  sorry
+  rw [mul_comm c b, mul_comm a c, mul_assoc]
 
 example (a b c : ℝ) : a * (b * c) = b * (a * c) := by
-  sorry
+  rw [ ← mul_assoc, mul_comm a b, mul_assoc]
 
 -- An example.
 example (a b c : ℝ) : a * b * c = b * c * a := by
