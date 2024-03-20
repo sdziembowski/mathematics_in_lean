@@ -1,5 +1,7 @@
 import MIL.Common
 import Mathlib.Data.Real.Basic
+
+
 -- An example.
 example (a b c : ℝ) : a * b * c = b * (a * c) := by
   rw [mul_comm a b]
@@ -35,10 +37,10 @@ example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c *
   rw [mul_assoc]
 
 example (a b c d e f : ℝ) (h : b * c = e * f) : a * b * c * d = a * e * f * d := by
-  sorry
+  rw [mul_assoc a, h, ← mul_assoc]
 
 example (a b c d : ℝ) (hyp : c = b * a - d) (hyp' : d = a * b) : c = 0 := by
-  sorry
+  rw [hyp, hyp', mul_comm, sub_self]
 
 example (a b c d e f : ℝ) (h : a * b = c * d) (h' : e = f) : a * (b * e) = c * (d * f) := by
   rw [h', ← mul_assoc, h, mul_assoc]
@@ -98,11 +100,33 @@ end
 section
 variable (a b c d : ℝ)
 
+
+
 example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
-  sorry
+    rw [mul_add,
+    add_mul,
+    add_mul,
+    ← add_assoc,
+    add_comm (a * c + b * c),
+    ← add_assoc,
+    add_comm (a * d)]
+
+#check add_assoc
 
 example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
-  sorry
+    rw [mul_sub,
+        add_mul,
+        add_mul,
+        ← sub_sub,
+        mul_comm b,
+        ← add_sub,
+        sub_self,
+        add_zero,
+        ← pow_two,
+        ← pow_two
+        ]
+
+
 
 #check pow_two a
 #check mul_sub a b c
@@ -110,6 +134,7 @@ example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
 #check add_sub a b c
 #check sub_sub a b c
 #check add_zero a
+
 
 end
 
