@@ -159,7 +159,7 @@ variable {G : Type*} [Group G]
 namespace MyGroup
 
 theorem mul_right_inv (a : G) : a * a⁻¹ = 1 := by
-  rw []
+  rw [← one_mul (a * a⁻¹)]
 
 theorem mul_one (a : G) : a * 1 = a := by
   sorry
