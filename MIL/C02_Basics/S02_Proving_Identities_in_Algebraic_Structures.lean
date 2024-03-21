@@ -53,34 +53,60 @@ theorem neg_add_cancel_left (a b : R) : -a + (a + b) = b := by
 
 -- Prove these:
 theorem add_neg_cancel_right (a b : R) : a + b + -b = a := by
-  sorry
+    rw [add_assoc,
+        add_right_neg,
+        add_zero]
 
-theorem add_left_cancel {a b c : R} (h : a + b = a + c) : b = c := by
-  sorry
+
+
 
 theorem add_right_cancel {a b c : R} (h : a + b = c + b) : a = c := by
-  sorry
+   rw [
+    ← neg_add_cancel_right a b,
+    add_assoc,
+    add_comm,
+    add_assoc,
+    add_comm b,
+    h,
+    add_comm,
+    add_neg_cancel_right
+   ]
+
 
 theorem mul_zero (a : R) : a * 0 = 0 := by
   have h : a * 0 + a * 0 = a * 0 + 0 := by
     rw [← mul_add, add_zero, add_zero]
   rw [add_left_cancel h]
 
+theorem add_side_by_side_right  {a b c : R} (h : a = b) : a + c = b + c := by
+  rw [h]
+
+
 theorem zero_mul (a : R) : 0 * a = 0 := by
-  sorry
+  have h : 0 * a + 0 * a = 0 * a + 0 := by
+    rw [← add_mul, add_zero, add_zero]
+  rw [add_left_cancel h]
 
 theorem neg_eq_of_add_eq_zero {a b : R} (h : a + b = 0) : -a = b := by
-  sorry
+ rw[← neg_add_cancel_left a b, h, add_zero]
+
 
 theorem eq_neg_of_add_eq_zero {a b : R} (h : a + b = 0) : a = -b := by
-  sorry
+  rw [← neg_add_cancel_right a b, add_assoc, add_comm (- b), ← add_assoc, h, zero_add]
 
 theorem neg_zero : (-0 : R) = 0 := by
   apply neg_eq_of_add_eq_zero
   rw [add_zero]
 
+#check zero_add
+#check add_zero
+
+
+#check neg_eq_of_add_eq_zero
+
 theorem neg_neg (a : R) : - -a = a := by
-  sorry
+  apply neg_eq_of_add_eq_zero
+  rw [add_left_neg]
 
 end MyRing
 
@@ -103,7 +129,7 @@ namespace MyRing
 variable {R : Type*} [Ring R]
 
 theorem self_sub (a : R) : a - a = 0 := by
-  sorry
+  rw [← add_right_neg a,sub_eq_add_neg]
 
 theorem one_add_one_eq_two : 1 + 1 = (2 : R) := by
   norm_num
@@ -143,4 +169,3 @@ theorem mul_inv_rev (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
 end MyGroup
 
 end
-
